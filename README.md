@@ -1,1 +1,1 @@
-# text-organizer
+# notes-organizer
