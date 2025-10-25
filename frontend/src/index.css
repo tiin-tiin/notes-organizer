@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+@import '@fontsource/b612-mono';
+@import '@fontsource/league-spartan';
+@import '@fontsource/jetbrains-mono';
+
+/* Base HTML setup */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Body styles */
+body {
+  font-family: 'JetBrains Mono', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  margin: 0;
+  min-height: 100vh;
+  
+  /* Font rendering optimizations */
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Headings use Poppins */
+h2, h3, h4, h5, h6 {
+  font-family: 'JetBrains Mono', sans-serif;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+/* Link styles */
+a {
+  font-weight: 500;
+  color: #f97316; /* Orange color*/
+  text-decoration: inherit;
+  transition: color 0.2s;
+}
+
+a:hover {
+  color: #ea580c; /* Darker orange on hover */
+}
+
+
+button:focus,
+button:focus-visible {
+  outline: 2px solid #f97316;
+  outline-offset: 2px;
+}
+
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #fa7f28;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ea580c;
+}
+
+/* Dark mode scrollbar */
+.dark ::-webkit-scrollbar-thumb {
+  background: #4b5563;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #6b7280;
+}

@@ -1,0 +1,22 @@
+# ------------------------------------
+# PYTHON SPECIFIC
+# ------------------------------------
+# Virtual environments
+venv/
+.venv/
+
+# Byte-compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Testing and development cache
+.pytest_cache/
+test_cache/
+htmlcov/
+.coverage
+
+# ------------------------------------
+# APPLICATION SPECIFIC (Local Runtime Data)
+# ------------------------------------
+clusters.json
