@@ -43,7 +43,10 @@ a {
   text-decoration: inherit;
   transition: color 0.2s;
 }
-
+:root {
+  /* Define your hex code here. Example: a light cream */
+  --custom-app-bg: #FFFAF0; 
+}
 a:hover {
   color: #ea580c; /* Darker orange on hover */
 }
