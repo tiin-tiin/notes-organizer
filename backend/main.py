@@ -88,19 +88,15 @@ def get_cluster_embedding(cluster: dict) -> np.ndarray:
     return np.mean(embeddings, axis=0)
 
 def find_best_cluster(note: str, clusters: List[dict]) -> Optional[int]:
-    """
-    Find best cluster using OR logic:
-    - If note matches title → cluster it
-    - OR if note matches any existing note → cluster it
-    """
     if not clusters:
         return None
 
     note_embedding = embedder.encode([note], convert_to_numpy=True)[0].reshape(1, -1)
     
-    best_cluster_idx = None
-    max_similarity = 0.0
-    best_match_type = None
+    best_title_idx = None
+    best_title_score = 0.0
+    best_note_idx = None
+    best_note_score = 0.0
     
     print(f"\n Finding cluster for: '{note}'")
     print(f"Title threshold: {SIMILARITY_THRESHOLD}")
@@ -119,38 +115,39 @@ def find_best_cluster(note: str, clusters: List[dict]) -> Optional[int]:
         
         if title_similarity > SIMILARITY_THRESHOLD:
             print(f" PASSES")
-            if title_similarity > max_similarity:
-                max_similarity = title_similarity
-                best_cluster_idx = i
-                best_match_type = "title"
+            if title_similarity > best_title_score:
+                best_title_score = title_similarity
+                best_title_idx = i
         else:
             print(f" X")
-        
-        # Check 2: Compare with notes in cluster
-        if cluster_notes:
-            cluster_note_embeddings = embedder.encode(cluster_notes, convert_to_numpy=True)
-            similarities = cosine_similarity(note_embedding, cluster_note_embeddings)[0]
-            max_note_similarity = np.max(similarities)
-            
-            print(f"Best note match: {max_note_similarity:.3f}", end="")
-            
-            if max_note_similarity > SIMILARITY_THRESHOLD:
-                print(f" PASSES")
-                if max_note_similarity > max_similarity:
-                    max_similarity = max_note_similarity
-                    best_cluster_idx = i
-                    best_match_type = "note"
-            else:
-                print(f" X")
+            # Only check notes if title didn't pass
+            if cluster_notes:
+                cluster_note_embeddings = embedder.encode(cluster_notes, convert_to_numpy=True)
+                similarities = cosine_similarity(note_embedding, cluster_note_embeddings)[0]
+                max_note_similarity = np.max(similarities)
+                
+                print(f"Best note match: {max_note_similarity:.3f}", end="")
+                
+                if max_note_similarity > SIMILARITY_THRESHOLD:
+                    print(f" PASSES")
+                    if max_note_similarity > best_note_score:
+                        best_note_score = max_note_similarity
+                        best_note_idx = i
+                else:
+                    print(f" X")
     
-    if best_cluster_idx is not None:
-        print(f"\nMatch found: '{clusters[best_cluster_idx]['cluster_title']}'")
-        print(f"  Reason: {best_match_type} similarity ({max_similarity:.3f})")
+    # Title matches always win over note matches
+    if best_title_idx is not None:
+        print(f"\nMatch found: '{clusters[best_title_idx]['cluster_title']}'")
+        print(f"  Reason: title similarity ({best_title_score:.3f})")
+        return best_title_idx
+    elif best_note_idx is not None:
+        print(f"\nMatch found: '{clusters[best_note_idx]['cluster_title']}'")
+        print(f"  Reason: note similarity ({best_note_score:.3f})")
+        return best_note_idx
     else:
         print(f"\nNo match found (nothing above {SIMILARITY_THRESHOLD})")
-    
-    return best_cluster_idx
-
+        return None
 
 
 
