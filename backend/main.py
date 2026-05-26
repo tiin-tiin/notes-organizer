@@ -337,7 +337,7 @@ async def create_cluster(data: CreateClusterInput):
     new_cluster = {
         "cluster_title": new_title,
         "notes": [],
-        "user_edited": True  # Manually created, so we lock the title
+        "user_edited": True  
     }
     clusters.append(new_cluster)
     save_clusters(clusters)
