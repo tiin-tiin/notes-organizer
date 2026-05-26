@@ -5,8 +5,6 @@
 
 NoteNext is an AI-powered note organizer that automatically groups your notes into semantic clusters. Just type a note — the app figures out where it belongs.
 
-![NoteNext Demo](./demo.png)
-
 ---
 
 ## How It Works
